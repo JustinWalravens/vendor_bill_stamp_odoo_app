@@ -8,6 +8,7 @@
         h2 { color: #1D4ED8; font-size: 20px; border-bottom: 2px solid #BFDBFE; padding-bottom: 6px; margin-top: 32px; }
         h3 { color: #1e40af; font-size: 16px; margin-top: 20px; }
         .badge { display: inline-block; background: #2563EB; color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin: 4px 2px; }
+        .badge-green { background: #16A34A; }
         .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
         .feature-box { border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px; background: #EFF6FF; }
         .feature-box h3 { margin: 0 0 8px 0; color: #1D4ED8; font-size: 15px; }
@@ -19,6 +20,9 @@
         .lang-divider { border: 2px solid #2563EB; margin: 48px 0 32px 0; }
         ul li { margin: 6px 0; font-size: 14px; }
         .note { background: #FFF7ED; border-left: 4px solid #F97316; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+        .compat { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+        .use-case { background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 14px; }
+        .use-case strong { color: #16A34A; }
     </style>
 </head>
 <body>
@@ -28,89 +32,105 @@
 <h1>PDF Stamp &amp; Nextcloud Sync</h1>
 <p>
     <span class="badge">Odoo 17</span>
+    <span class="badge">Odoo 18</span>
+    <span class="badge">Odoo 19</span>
     <span class="badge">Community</span>
     <span class="badge">Accounting</span>
     <span class="badge">Sales</span>
-    <span class="badge">Nextcloud</span>
+    <span class="badge badge-green">Nextcloud</span>
+    <span class="badge badge-green">WebDAV</span>
 </p>
 
 <p style="font-size:16px; color:#1D4ED8; font-style:italic;">
-    Automatically stamp your invoices, credit notes and quotations with their Odoo reference number — then push the PDF straight to your Nextcloud, organised by document type and year.
+    Automatically stamp vendor bills, customer invoices, credit notes and quotations with their Odoo reference number — then push the PDF straight to your Nextcloud, organised by document type and year. No more manual downloads, no more copy-paste.
 </p>
 
-<h2>Key Features</h2>
+<h2>The Problem It Solves</h2>
+<div class="use-case"><strong>Before:</strong> Every time you receive a supplier invoice, you download the PDF, open it, manually add your internal reference, save it, then upload it to your cloud storage — in the right folder, with the right name.</div>
+<div class="use-case"><strong>After:</strong> Click "Confirm". Done. The PDF is stamped and pushed to Nextcloud automatically, in the right folder for that year and document type.</div>
 
+<h2>Key Features</h2>
 <div class="feature-grid">
     <div class="feature-box">
         <h3>&#10003; Automatic PDF Stamping</h3>
-        <p>Appose the Odoo reference number on every page of the PDF at validation time. Blue text with black outline, fully configurable.</p>
+        <p>Appose the Odoo reference number on every page at validation. Blue text with black outline — font size, color and position all configurable.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Smart PDF Detection</h3>
-        <p>If a supplier PDF is already attached (e.g. via Peppol), it is stamped directly. Otherwise the Odoo-generated PDF is used as fallback.</p>
+        <p>If a supplier PDF is already attached (e.g. via Peppol / UBL), it is stamped directly. Odoo-generated PDF used as fallback. Original file never modified.</p>
     </div>
     <div class="feature-box">
-        <h3>&#10003; Nextcloud Integration</h3>
-        <p>Send every validated document to a configurable Nextcloud folder via WebDAV. Missing folders are created automatically.</p>
+        <h3>&#10003; Nextcloud WebDAV Sync</h3>
+        <p>Sends every validated document to Nextcloud automatically. Missing folders (including year folders) are created on the fly.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Dynamic Path Variables</h3>
-        <p>Use <code>{year}</code>, <code>{month}</code>, <code>{day}</code>, <code>{ref}</code> and <code>{number}</code> in the destination path to organise files by date.</p>
+        <p>Use <code>{year}</code>, <code>{month}</code>, <code>{day}</code>, <code>{ref}</code>, <code>{number}</code> in destination paths. Store 2025 invoices in <code>/Invoices/2025/</code> automatically.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Per-Document-Type Control</h3>
-        <p>Independently enable stamping and Nextcloud sync for: vendor bills, vendor credit notes, customer invoices, customer credit notes, and quotations.</p>
+        <p>Independent stamp toggle and Nextcloud path for vendor bills, vendor credit notes, customer invoices, customer credit notes, and quotations.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Live Quotation Sync</h3>
-        <p>Every time a quotation is saved, the latest PDF is automatically pushed to Nextcloud — always up to date.</p>
+        <p>Every time a quotation is saved, the latest PDF is pushed to Nextcloud. Your team always has the current version.</p>
     </div>
+</div>
+
+<h2>Compatibility</h2>
+<div class="compat">
+    <span class="badge">Odoo 17.0 Community &amp; Enterprise</span>
+    <span class="badge">Odoo 18.0 Community &amp; Enterprise</span>
+    <span class="badge">Odoo 19.0 Community &amp; Enterprise</span>
+    <span class="badge badge-green">Peppol / UBL compatible</span>
+    <span class="badge badge-green">Any Nextcloud version with WebDAV</span>
 </div>
 
 <h2>Supported Document Types</h2>
 <ul>
-    <li>Vendor Bills (in_invoice)</li>
-    <li>Vendor Credit Notes (in_refund)</li>
-    <li>Customer Invoices (out_invoice)</li>
-    <li>Customer Credit Notes (out_refund)</li>
-    <li>Quotations &amp; Sales Orders (sale.order)</li>
+    <li>Vendor Bills <code>in_invoice</code></li>
+    <li>Vendor Credit Notes <code>in_refund</code></li>
+    <li>Customer Invoices <code>out_invoice</code></li>
+    <li>Customer Credit Notes <code>out_refund</code></li>
+    <li>Quotations &amp; Sales Orders <code>sale.order</code></li>
 </ul>
 
 <h2>Path Variables Reference</h2>
 <table class="var-table">
-    <tr><th>Variable</th><th>Description</th><th>Example</th></tr>
+    <tr><th>Variable</th><th>Description</th><th>Example output</th></tr>
     <tr><td>{year}</td><td>Invoice / document year</td><td>2026</td></tr>
     <tr><td>{month}</td><td>Invoice / document month</td><td>03</td></tr>
     <tr><td>{day}</td><td>Invoice / document day</td><td>19</td></tr>
     <tr><td>{number}</td><td>Odoo document number</td><td>FF-26-3-21</td></tr>
     <tr><td>{ref}</td><td>Supplier / customer reference</td><td>24104447</td></tr>
 </table>
-
-<p><strong>Example path:</strong> <code>/Invoices/{year}/Suppliers/</code> → <code>/Invoices/2026/Suppliers/FF-26-3-21.pdf</code></p>
+<p><strong>Example:</strong> path <code>/Invoices/Suppliers/{year}/</code> → file <code>/Invoices/Suppliers/2026/FF-26-3-21.pdf</code></p>
 
 <h2>Configuration</h2>
-<p>All settings are available in <strong>Settings → PDF Stamp</strong> (dedicated tab):</p>
+<p>All settings in <strong>Settings → PDF Stamp</strong> (dedicated tab):</p>
 <ul>
-    <li>Enable / disable stamp per document type</li>
-    <li>Text color (hex), font size, position (top/bottom, left/right)</li>
-    <li>Nextcloud URL, username, password / app token</li>
-    <li>One destination path per document type, with variable support</li>
+    <li>Enable stamping per document type (independent toggles)</li>
+    <li>Text color (hex code), font size (pt), position (top/bottom + left/right)</li>
+    <li>Show Odoo number, supplier/customer reference, or both with custom separator</li>
+    <li>Nextcloud URL, username, password or app token</li>
+    <li>One destination path per document type, with full variable support</li>
+    <li>Enable/disable Nextcloud sync independently per document type</li>
 </ul>
 
 <h2>Requirements</h2>
 <ul>
-    <li>Odoo 17 Community or Enterprise</li>
-    <li>Python libraries: <code>pypdf</code>, <code>reportlab</code> (install via pip on your server)</li>
-    <li>Nextcloud instance with WebDAV enabled (standard)</li>
-    <li><code>sale</code> module required for quotation sync</li>
+    <li>Odoo 17, 18 or 19 — Community or Enterprise</li>
+    <li>Python: <code>pypdf</code> and <code>reportlab</code> (install via pip on your server)</li>
+    <li>Nextcloud with WebDAV enabled (enabled by default on all Nextcloud instances)</li>
+    <li><code>sale</code> module required only for quotation sync feature</li>
 </ul>
 
 <div class="note">
-    <strong>Note:</strong> The stamp is applied on top of existing PDF attachments (e.g. Peppol/UBL). The original file is never modified — a new <em>_stamped.pdf</em> attachment is created alongside it.
+    <strong>Note on Peppol / UBL:</strong> When a supplier sends an invoice via Peppol, the original PDF is attached to the Odoo record. This module detects it and stamps that file directly — your supplier's original layout is preserved. A new <em>_stamped.pdf</em> is created alongside the original; the original is never touched.
 </div>
 
 <h2>About the Author</h2>
-<p>Developed by <strong>Walravens Justin</strong> — Belgian Odoo integrator and developer.</p>
+<p>Developed by <strong>Walravens Justin</strong> — Belgian Odoo developer and integrator. Built from a real daily workflow pain point.</p>
 
 <hr class="lang-divider"/>
 
@@ -119,52 +139,67 @@
 <h1>Tampon PDF &amp; Synchronisation Nextcloud</h1>
 <p>
     <span class="badge">Odoo 17</span>
+    <span class="badge">Odoo 18</span>
+    <span class="badge">Odoo 19</span>
     <span class="badge">Community</span>
     <span class="badge">Comptabilité</span>
     <span class="badge">Ventes</span>
-    <span class="badge">Nextcloud</span>
+    <span class="badge badge-green">Nextcloud</span>
+    <span class="badge badge-green">WebDAV</span>
 </p>
 
 <p style="font-size:16px; color:#1D4ED8; font-style:italic;">
-    Apposez automatiquement le numéro Odoo sur vos factures, avoirs et devis — puis envoyez le PDF directement dans votre Nextcloud, organisé par type de document et par année.
+    Apposez automatiquement le numéro Odoo sur vos factures, avoirs et devis — puis envoyez le PDF directement dans votre Nextcloud, organisé par type de document et par année. Fini les téléchargements manuels.
 </p>
 
-<h2>Fonctionnalités principales</h2>
+<h2>Le problème résolu</h2>
+<div class="use-case"><strong>Avant :</strong> À chaque facture fournisseur reçue, vous téléchargez le PDF, l'ouvrez, ajoutez manuellement votre référence interne, l'enregistrez, puis le rangez dans le bon dossier cloud avec le bon nom.</div>
+<div class="use-case"><strong>Après :</strong> Cliquez sur "Confirmer". C'est tout. Le PDF est estampillé et envoyé automatiquement dans Nextcloud, dans le bon dossier de l'année et du type de document.</div>
 
+<h2>Fonctionnalités principales</h2>
 <div class="feature-grid">
     <div class="feature-box">
         <h3>&#10003; Tampon PDF automatique</h3>
-        <p>Appose le numéro de référence Odoo sur chaque page du PDF à la validation. Texte bleu avec contour noir, entièrement configurable.</p>
+        <p>Appose le numéro Odoo sur chaque page à la validation. Texte bleu avec contour noir — taille, couleur et position configurables.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Détection intelligente du PDF</h3>
-        <p>Si un PDF fournisseur est déjà joint (ex. via Peppol), c'est lui qui est estampillé. Sinon, le PDF généré par Odoo est utilisé en fallback.</p>
+        <p>Si un PDF fournisseur est déjà joint (ex. Peppol / UBL), c'est lui qui est estampillé. Fallback sur le PDF Odoo. L'original n'est jamais modifié.</p>
     </div>
     <div class="feature-box">
-        <h3>&#10003; Intégration Nextcloud</h3>
-        <p>Envoie chaque document validé vers un dossier Nextcloud configurable via WebDAV. Les dossiers manquants sont créés automatiquement.</p>
+        <h3>&#10003; Sync Nextcloud WebDAV</h3>
+        <p>Envoie chaque document validé vers Nextcloud. Les dossiers manquants (y compris les dossiers d'année) sont créés automatiquement.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Variables de chemin dynamiques</h3>
-        <p>Utilisez <code>{year}</code>, <code>{month}</code>, <code>{day}</code>, <code>{ref}</code> et <code>{number}</code> dans le chemin de destination pour organiser les fichiers par date.</p>
+        <p>Utilisez <code>{year}</code>, <code>{month}</code>, <code>{day}</code>, <code>{ref}</code>, <code>{number}</code>. Les factures 2025 vont dans <code>/Factures/2025/</code> automatiquement.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Contrôle par type de document</h3>
-        <p>Activez indépendamment le tampon et la sync Nextcloud pour : factures fournisseur, avoirs fournisseur, factures client, avoirs client et devis.</p>
+        <p>Toggle et chemin Nextcloud indépendants pour factures four., avoirs four., factures client, avoirs client et devis.</p>
     </div>
     <div class="feature-box">
         <h3>&#10003; Sync devis en temps réel</h3>
-        <p>À chaque sauvegarde d'un devis, le PDF le plus récent est automatiquement envoyé vers Nextcloud — toujours à jour.</p>
+        <p>À chaque sauvegarde d'un devis, le PDF le plus récent est envoyé vers Nextcloud. Votre équipe a toujours la version à jour.</p>
     </div>
+</div>
+
+<h2>Compatibilité</h2>
+<div class="compat">
+    <span class="badge">Odoo 17.0 Community &amp; Enterprise</span>
+    <span class="badge">Odoo 18.0 Community &amp; Enterprise</span>
+    <span class="badge">Odoo 19.0 Community &amp; Enterprise</span>
+    <span class="badge badge-green">Compatible Peppol / UBL</span>
+    <span class="badge badge-green">Toutes versions Nextcloud avec WebDAV</span>
 </div>
 
 <h2>Types de documents supportés</h2>
 <ul>
-    <li>Factures fournisseurs (in_invoice)</li>
-    <li>Notes de crédit fournisseurs (in_refund)</li>
-    <li>Factures client (out_invoice)</li>
-    <li>Notes de crédit client (out_refund)</li>
-    <li>Devis &amp; commandes client (sale.order)</li>
+    <li>Factures fournisseurs <code>in_invoice</code></li>
+    <li>Notes de crédit fournisseurs <code>in_refund</code></li>
+    <li>Factures client <code>out_invoice</code></li>
+    <li>Notes de crédit client <code>out_refund</code></li>
+    <li>Devis &amp; commandes client <code>sale.order</code></li>
 </ul>
 
 <h2>Variables de chemin</h2>
@@ -176,32 +211,33 @@
     <tr><td>{number}</td><td>Numéro Odoo du document</td><td>FF-26-3-21</td></tr>
     <tr><td>{ref}</td><td>Référence fournisseur / client</td><td>24104447</td></tr>
 </table>
-
-<p><strong>Exemple de chemin :</strong> <code>/Factures/{year}/Fournisseurs/</code> → <code>/Factures/2026/Fournisseurs/FF-26-3-21.pdf</code></p>
+<p><strong>Exemple :</strong> chemin <code>/Factures/Fournisseurs/{year}/</code> → fichier <code>/Factures/Fournisseurs/2026/FF-26-3-21.pdf</code></p>
 
 <h2>Configuration</h2>
-<p>Tous les paramètres sont dans <strong>Paramètres → Tampon PDF</strong> (onglet dédié) :</p>
+<p>Tous les paramètres dans <strong>Paramètres → Tampon PDF</strong> (onglet dédié) :</p>
 <ul>
-    <li>Activer / désactiver le tampon par type de document</li>
-    <li>Couleur du texte (hex), taille de police, position (haut/bas, gauche/droite)</li>
-    <li>URL Nextcloud, utilisateur, mot de passe / token d'application</li>
-    <li>Un chemin de destination par type de document, avec support des variables</li>
+    <li>Activer le tampon par type de document (toggles indépendants)</li>
+    <li>Couleur du texte (code hex), taille de police (pt), position (haut/bas + gauche/droite)</li>
+    <li>Afficher numéro Odoo, référence four./client, ou les deux avec séparateur personnalisé</li>
+    <li>URL Nextcloud, utilisateur, mot de passe ou token d'application</li>
+    <li>Un chemin de destination par type de document avec support des variables</li>
+    <li>Activer/désactiver la sync Nextcloud indépendamment par type de document</li>
 </ul>
 
 <h2>Prérequis</h2>
 <ul>
-    <li>Odoo 17 Community ou Enterprise</li>
-    <li>Librairies Python : <code>pypdf</code>, <code>reportlab</code> (à installer via pip sur votre serveur)</li>
-    <li>Instance Nextcloud avec WebDAV activé (standard)</li>
-    <li>Module <code>sale</code> requis pour la sync des devis</li>
+    <li>Odoo 17, 18 ou 19 — Community ou Enterprise</li>
+    <li>Python : <code>pypdf</code> et <code>reportlab</code> (à installer via pip sur votre serveur)</li>
+    <li>Nextcloud avec WebDAV activé (activé par défaut sur toutes les instances Nextcloud)</li>
+    <li>Module <code>sale</code> requis uniquement pour la sync des devis</li>
 </ul>
 
 <div class="note">
-    <strong>Note :</strong> Le tampon est appliqué par-dessus les pièces jointes PDF existantes (ex. Peppol/UBL). Le fichier original n'est jamais modifié — une nouvelle pièce jointe <em>_stamped.pdf</em> est créée en parallèle.
+    <strong>Note Peppol / UBL :</strong> Quand un fournisseur envoie une facture via Peppol, le PDF original est joint à la fiche Odoo. Ce module le détecte et l'estampille directement — la mise en page originale du fournisseur est préservée. Un nouveau <em>_stamped.pdf</em> est créé en parallèle ; l'original n'est jamais touché.
 </div>
 
 <h2>À propos de l'auteur</h2>
-<p>Développé par <strong>Walravens Justin</strong> — intégrateur et développeur Odoo belge.</p>
+<p>Développé par <strong>Walravens Justin</strong> — développeur et intégrateur Odoo belge. Né d'une vraie douleur quotidienne de workflow.</p>
 
 </body>
 </html>
