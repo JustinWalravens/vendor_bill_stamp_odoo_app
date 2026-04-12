@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_vendor_bill_stamp" model="ir.ui.view">
+        <field name="name">res.config.settings.view.vendor.bill.stamp</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Tampon PDF" name="vendor_bill_stamp">
+
+                    <block title="Appliquer le tampon">
+                        <setting string="Factures fournisseurs">
+                            <field name="stamp_vendor_bill_stamp"/>
+                        </setting>
+                        <setting string="Notes de credit fournisseurs">
+                            <field name="stamp_vendor_refund_stamp"/>
+                        </setting>
+                        <setting string="Factures client">
+                            <field name="stamp_out_invoice_stamp"/>
+                        </setting>
+                        <setting string="Notes de credit client">
+                            <field name="stamp_out_refund_stamp"/>
+                        </setting>
+                        <setting string="Devis et commandes client">
+                            <field name="stamp_out_quote_stamp"/>
+                        </setting>
+                    </block>
+
+                    <block title="Contenu du tampon">
+                        <setting string="Numero Odoo ex FF-26-3-21">
+                            <field name="stamp_show_number"/>
+                        </setting>
+                        <setting string="Reference fournisseur ou client">
+                            <field name="stamp_show_ref"/>
+                        </setting>
+                        <setting string="Separateur si les deux actifs"
+                                 help="Ex: | donnera FF-26-3-21 | REF-001">
+                            <field name="stamp_separator"/>
+                        </setting>
+                    </block>
+
+                    <block title="Style">
+                        <setting string="Couleur du texte"
+                                 help="Code hex : #1A56DB bleu, #C0392B rouge, #000000 noir">
+                            <field name="stamp_text_color"/>
+                        </setting>
+                        <setting string="Taille police pt"
+                                 help="Recommande entre 8 et 16.">
+                            <field name="stamp_font_size"/>
+                        </setting>
+                    </block>
+
+                    <block title="Position">
+                        <setting string="Position verticale">
+                            <field name="stamp_position_v" widget="radio"/>
+                        </setting>
+                        <setting string="Position horizontale">
+                            <field name="stamp_position_h" widget="radio"/>
+                        </setting>
+                    </block>
+
+                    <block title="Synchronisation Nextcloud — Connexion">
+                        <setting string="Activer Nextcloud">
+                            <field name="stamp_nc_enabled"/>
+                        </setting>
+                        <setting string="URL Nextcloud"
+                                 invisible="not stamp_nc_enabled">
+                            <field name="stamp_nc_url" placeholder="https://nextcloud.mondomaine.be"/>
+                        </setting>
+                        <setting string="Utilisateur"
+                                 invisible="not stamp_nc_enabled">
+                            <field name="stamp_nc_user" placeholder="mon.utilisateur"/>
+                        </setting>
+                        <setting string="Mot de passe ou Token"
+                                 invisible="not stamp_nc_enabled">
+                            <field name="stamp_nc_password" password="True"/>
+                        </setting>
+                    </block>
+
+                    <block title="Synchronisation Nextcloud — Dossiers et activation"
+                           invisible="not stamp_nc_enabled">
+                        <setting string="Factures fournisseurs — Activer sync"
+                                 help="Variables chemin : {year} {month} {day} {ref} {number}">
+                            <field name="stamp_vendor_bill_enabled"/>
+                            <field name="stamp_nc_path_in_invoice"
+                                   placeholder="/Factures/Fournisseurs/{year}/"
+                                   invisible="not stamp_vendor_bill_enabled"/>
+                        </setting>
+                        <setting string="Notes de credit fournisseurs — Activer sync">
+                            <field name="stamp_vendor_refund_enabled"/>
+                            <field name="stamp_nc_path_in_refund"
+                                   placeholder="/Factures/Fournisseurs/Avoirs/{year}/"
+                                   invisible="not stamp_vendor_refund_enabled"/>
+                        </setting>
+                        <setting string="Factures client — Activer sync">
+                            <field name="stamp_out_invoice_enabled"/>
+                            <field name="stamp_nc_path_out_invoice"
+                                   placeholder="/Factures/Clients/{year}/"
+                                   invisible="not stamp_out_invoice_enabled"/>
+                        </setting>
+                        <setting string="Notes de credit client — Activer sync">
+                            <field name="stamp_out_refund_enabled"/>
+                            <field name="stamp_nc_path_out_refund"
+                                   placeholder="/Factures/Clients/Avoirs/{year}/"
+                                   invisible="not stamp_out_refund_enabled"/>
+                        </setting>
+                        <setting string="Devis et commandes client — Activer sync">
+                            <field name="stamp_out_quote_enabled"/>
+                            <field name="stamp_nc_path_out_quote"
+                                   placeholder="/Devis/{year}/"
+                                   invisible="not stamp_out_quote_enabled"/>
+                        </setting>
+                    </block>
+
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
