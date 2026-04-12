@@ -1,12 +1,12 @@
 {
     'name': 'PDF Stamp & Nextcloud Sync',
-    'version': '17.0.7.1.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Accounting',
     'summary': 'Stamp invoices with Odoo reference and sync PDF to Nextcloud automatically',
     'description': """
 Automatically stamp vendor bills, customer invoices, credit notes and quotations
 with their Odoo reference number, then push the PDF to Nextcloud — organised by
-document type and year.
+document type and year. Compatible with Odoo 18 and 19.
     """,
     'author': 'Walravens Justin',
     'website': '',

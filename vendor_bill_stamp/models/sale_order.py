@@ -39,7 +39,7 @@ class SaleOrder(models.Model):
         _logger.info("vendor_bill_stamp: traitement devis %s (tampon: %s)", self.name, apply_stamp)
 
         report = self.env.ref('sale.action_report_saleorder')
-        pdf_bytes, _ = report._render_qweb_pdf('sale.action_report_saleorder', self.ids)
+        pdf_bytes, _ = self.env["ir.actions.report"]._render_qweb_pdf('sale.action_report_saleorder', self.ids)
 
         if apply_stamp:
             show_number = get('vendor_bill_stamp.show_number', 'True') == 'True'

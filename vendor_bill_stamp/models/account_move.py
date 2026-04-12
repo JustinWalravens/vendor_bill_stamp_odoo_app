@@ -47,7 +47,6 @@ class AccountMove(models.Model):
 
     def _process_and_sync(self, nc_path_key, apply_stamp):
         get = self.env['ir.config_parameter'].sudo().get_param
-
         pdf_bytes, source_att = self._get_source_pdf()
 
         if apply_stamp:
@@ -65,15 +64,13 @@ class AccountMove(models.Model):
                 return
 
             final_b64 = self._apply_stamp_to_pdf(
-                pdf_bytes,
-                stamp_text,
+                pdf_bytes, stamp_text,
                 get('vendor_bill_stamp.text_color',  '#1A56DB'),
                 int(get('vendor_bill_stamp.font_size', '11')),
                 get('vendor_bill_stamp.position_v',  'top'),
                 get('vendor_bill_stamp.position_h',  'right'),
             )
 
-            # Sauvegarder la pièce jointe estampillée
             self.env['ir.attachment'].search([
                 ('res_model', '=', 'account.move'),
                 ('res_id', '=', self.id),
@@ -89,13 +86,11 @@ class AccountMove(models.Model):
                 'mimetype': 'application/pdf',
                 'description': 'PDF avec numéro apposé automatiquement',
             })
-            _logger.info("vendor_bill_stamp: [%s] PDF estampillé créé (source: %s)",
+            _logger.info("vendor_bill_stamp: [%s] PDF estampillé (source: %s)",
                          self.name, source_att.name if source_att else 'Odoo')
         else:
             final_b64 = base64.b64encode(pdf_bytes).decode('utf-8')
-            _logger.info("vendor_bill_stamp: [%s] Tampon désactivé, PDF original utilisé.", self.name)
 
-        # Sync Nextcloud
         if get('vendor_bill_stamp.nc_enabled', 'False') == 'True':
             nc_path = get(nc_path_key, '/Documents/{year}/')
             self._sync_to_nextcloud(final_b64, nc_path)
@@ -119,11 +114,10 @@ class AccountMove(models.Model):
                             self.name, len(attachments), att.name)
             return base64.b64decode(att.datas), att
 
-        # Fallback : générer via Odoo avec le bon rapport selon le type
+        # Fallback Odoo — Odoo 18/19 : _render_qweb_pdf(report_ref, res_ids)
         _logger.info("vendor_bill_stamp: [%s] Aucun PDF joint, génération via Odoo.", self.name)
         report_ref = MOVE_TYPE_REPORT.get(self.move_type, 'account.action_account_original_vendor_bill')
-        report = self.env.ref(report_ref)
-        pdf_bytes, _ = report._render_qweb_pdf(report_ref, self.ids)
+        pdf_bytes, _ = self.env['ir.actions.report']._render_qweb_pdf(report_ref, self.ids)
         return pdf_bytes, None
 
     @staticmethod
