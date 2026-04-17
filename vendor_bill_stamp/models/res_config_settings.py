@@ -1,5 +1,22 @@
 from odoo import fields, models
 
+# Clés booléennes qui doivent être explicitement stockées même à False
+BOOL_PARAMS = [
+    'vendor_bill_stamp.bill_stamp',
+    'vendor_bill_stamp.refund_stamp',
+    'vendor_bill_stamp.out_invoice_stamp',
+    'vendor_bill_stamp.out_refund_stamp',
+    'vendor_bill_stamp.out_quote_stamp',
+    'vendor_bill_stamp.bill_enabled',
+    'vendor_bill_stamp.refund_enabled',
+    'vendor_bill_stamp.out_invoice_enabled',
+    'vendor_bill_stamp.out_refund_enabled',
+    'vendor_bill_stamp.out_quote_enabled',
+    'vendor_bill_stamp.nc_enabled',
+    'vendor_bill_stamp.show_number',
+    'vendor_bill_stamp.show_ref',
+]
+
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -147,3 +164,32 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='vendor_bill_stamp.nc_path_out_quote',
         default='/Devis/{year}/',
     )
+
+    def set_values(self):
+        """Override pour forcer l'écriture des booléens même quand False.
+        Odoo supprime les ir.config_parameter à False par défaut,
+        ce qui fait que get_param retourne la valeur par défaut du code
+        au lieu de la valeur sauvegardée par l'utilisateur."""
+        super().set_values()
+        icp = self.env['ir.config_parameter'].sudo()
+
+        # Mapping champ → clé de paramètre pour tous les booléens
+        bool_field_map = {
+            'stamp_vendor_bill_stamp':    'vendor_bill_stamp.bill_stamp',
+            'stamp_vendor_refund_stamp':  'vendor_bill_stamp.refund_stamp',
+            'stamp_out_invoice_stamp':    'vendor_bill_stamp.out_invoice_stamp',
+            'stamp_out_refund_stamp':     'vendor_bill_stamp.out_refund_stamp',
+            'stamp_out_quote_stamp':      'vendor_bill_stamp.out_quote_stamp',
+            'stamp_vendor_bill_enabled':  'vendor_bill_stamp.bill_enabled',
+            'stamp_vendor_refund_enabled':'vendor_bill_stamp.refund_enabled',
+            'stamp_out_invoice_enabled':  'vendor_bill_stamp.out_invoice_enabled',
+            'stamp_out_refund_enabled':   'vendor_bill_stamp.out_refund_enabled',
+            'stamp_out_quote_enabled':    'vendor_bill_stamp.out_quote_enabled',
+            'stamp_nc_enabled':           'vendor_bill_stamp.nc_enabled',
+            'stamp_show_number':          'vendor_bill_stamp.show_number',
+            'stamp_show_ref':             'vendor_bill_stamp.show_ref',
+        }
+
+        for field_name, param_key in bool_field_map.items():
+            value = str(getattr(self, field_name, False))  # 'True' ou 'False'
+            icp.set_param(param_key, value)
